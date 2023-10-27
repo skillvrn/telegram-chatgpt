@@ -1,6 +1,10 @@
-FROM python:3.9-slim
+FROM golang:1.17 AS builder
 WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-CMD ["python", "bot.py"]
+RUN go mod tidy
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+FROM scratch
+WORKDIR /app
+COPY --from=builder /app/main .
+CMD ["./main"]
