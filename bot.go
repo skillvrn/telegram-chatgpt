@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -65,7 +66,7 @@ func main() {
 			continue
 		}
 
-		userID := update.Message.From.ID
+		userID := strconv.Itoa(update.Message.From.ID)
 		isAllowed := false
 		for _, allowedID := range allowedUserIDs {
 			if allowedID == userID {
