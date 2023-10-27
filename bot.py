@@ -18,9 +18,12 @@ def chat_with_gpt(user_message: str) -> str:
         'max_tokens': 150
     }
     response = requests.post('https://api.openai.com/v1/engines/davinci/completions', headers=headers, json=data)
-    print(response.json())  # отладка
+    
+    # Записываем JSON-ответ в файл для отладки
+    with open("/app/debug_response.json", "w") as debug_file:
+        debug_file.write(response.text)
+    
     response_json = response.json()
-
     return response_json['choices'][0]['text'].strip()
 
 def handle_text(update: Update, context: CallbackContext) -> None:
