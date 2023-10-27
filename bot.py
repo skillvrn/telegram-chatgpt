@@ -18,6 +18,7 @@ def chat_with_gpt(user_message: str) -> str:
         'max_tokens': 150
     }
     response = requests.post('https://api.openai.com/v1/engines/davinci/completions', headers=headers, json=data)
+    print(response.json())  # отладка
     response_json = response.json()
 
     return response_json['choices'][0]['text'].strip()
