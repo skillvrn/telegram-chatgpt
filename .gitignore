@@ -3,3 +3,7 @@
 
 # Secrets
 .env
+
+# git
+.git
+.git/*
