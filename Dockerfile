@@ -1,12 +1,6 @@
-FROM golang:1.17 as builder
+FROM python:3.9-slim
 WORKDIR /app
-COPY go.mod go.sum ./
-COPY bot.go .
-RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux go build -o bot
-
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
-WORKDIR /root/
-COPY --from=builder /app/bot .
-CMD ["./bot"]
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+CMD ["python", "bot.py"]
